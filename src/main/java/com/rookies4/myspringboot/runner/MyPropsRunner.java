@@ -2,6 +2,8 @@ package com.rookies4.myspringboot.runner;
 
 import com.rookies4.myspringboot.config.vo.CustomVO;
 import com.rookies4.myspringboot.property.MyBootProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -27,6 +29,9 @@ public class MyPropsRunner implements ApplicationRunner {
 
     @Autowired
     private CustomVO custom;
+
+    //Logger 객체 생성
+    private Logger logger = LoggerFactory.getLogger(MyPropsRunner.class);
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
