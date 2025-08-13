@@ -1,5 +1,6 @@
 package com.rookies4.myspringboot.runner;
 
+import com.rookies4.myspringboot.config.vo.CustomVO;
 import com.rookies4.myspringboot.property.MyBootProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,8 +25,13 @@ public class MyPropsRunner implements ApplicationRunner {
     @Autowired
     private MyBootProperties properties;
 
+    @Autowired
+    private CustomVO custom;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        System.out.println("현재 활성화된 CustomerVO Bean = " + custom);
+
         System.out.println("MyBootProperties.getName() = " + properties.getName());
         System.out.println("MyBootProperties.getAge() = " + properties.getAge());
         System.out.println("MyBootProperties.getFullName() = " + properties.getFullName());
