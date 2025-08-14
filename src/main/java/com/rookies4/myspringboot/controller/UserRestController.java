@@ -3,10 +3,12 @@ package com.rookies4.myspringboot.controller;
 import com.rookies4.myspringboot.entity.UserEntity;
 import com.rookies4.myspringboot.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 //@RestController-> JSON의 형식으로 보내준다.
 @RestController
@@ -31,11 +33,19 @@ public class UserRestController {
         return userRepository.save(user);
     }
 
-    //Post에 등록된 DB 조회하기
+    //Post에 등록된 DB 전체 조회하기
     @GetMapping
     public List<UserEntity> getUsers() {
         return userRepository.findAll();
     }
 
+    //Post에 등록된 DB ID로 조회하기
+    //@GetMapping("/{}") {}는 동적 변수를 받기 위해서 ex) /api/users/1 , /api/users/2
+    @GetMapping("/{id}")
+    public UserEntity getUser(@PathVariable Long id) {
+        Optional<UserEntity> optionalUser = userRepository.findById(id);
+        UserEntity existUser = optionalUser.orElseThrow();
+        return existUser;
+    }
 
 }
