@@ -4,10 +4,15 @@ package com.rookies4.myspringboot.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="customers")
 @Getter @Setter
+@DynamicUpdate
 public class Customer {
     //Primary Key, PK값을 Persistence Provide가 결정해라
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +26,8 @@ public class Customer {
     @Column(nullable = false)
     private String customerName;
 
-
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
+    LocalDateTime createAt = LocalDateTime.now();
 
 }
