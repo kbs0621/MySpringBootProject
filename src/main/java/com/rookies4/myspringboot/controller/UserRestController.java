@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+//@RestController-> JSON의 형식으로 보내준다.
 @RestController
 //final이 붙은 생성자를 초기화 시켜준다.
 @RequiredArgsConstructor
