@@ -4,10 +4,9 @@ import com.rookies4.myspringboot.entity.UserEntity;
 import com.rookies4.myspringboot.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 //final이 붙은 생성자를 초기화 시켜준다.
@@ -25,10 +24,17 @@ public class UserRestController {
 //        this.userRepository = userRepository;
 //    }
 
+    //Post에 등록
     @PostMapping
     public UserEntity create(@RequestBody UserEntity user) {
         return userRepository.save(user);
-
     }
+
+    //Post에 등록된 DB 조회하기
+    @GetMapping
+    public List<UserEntity> getUsers() {
+        return userRepository.findAll();
+    }
+
 
 }
