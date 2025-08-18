@@ -1,10 +1,13 @@
 package com.rookies4.myspringboot.controller;
 
 import com.rookies4.myspringboot.entity.UserEntity;
+import com.rookies4.myspringboot.exception.BusinessException;
 import com.rookies4.myspringboot.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,8 +46,33 @@ public class UserRestController {
     //@GetMapping("/{}") {}는 동적 변수를 받기 위해서 ex) /api/users/1 , /api/users/2
     @GetMapping("/{id}")
     public UserEntity getUser(@PathVariable Long id) {
+        UserEntity existUser = getExistEntity(id);
+        return existUser;
+    }
+
+    //Email로 조회하고, 수정하기
+    @PatchMapping("/{email}/")
+    public UserEntity updateUser(@PathVariable String email, @RequestBody UserEntity userDetail) {
+        UserEntity existUser = userRepository.findByEmail(email) //Optioanl<UserEntity>
+                .orElseThrow(() -> new BusinessException("User Not Found", HttpStatus.NOT_FOUND));
+        existUser.setName(userDetail.getName());
+        UserEntity updateUser = userRepository.save(existUser);
+        return updateUser;
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id){
+        UserEntity existUser = getExistEntity(id);
+
+        userRepository.delete(existUser);
+        return ResponseEntity.ok("User가 삭제 되었습니다,");
+    }
+
+    private UserEntity getExistEntity(Long id) {
         Optional<UserEntity> optionalUser = userRepository.findById(id);
-        UserEntity existUser = optionalUser.orElseThrow();
+
+        UserEntity existUser = optionalUser
+                .orElseThrow(() -> new BusinessException("User Not Found"));
         return existUser;
     }
 
