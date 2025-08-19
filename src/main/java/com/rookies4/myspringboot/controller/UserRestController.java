@@ -8,6 +8,7 @@ import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,6 +39,7 @@ public class UserRestController {
 
     //Post에 등록된 DB 전체 조회하기
     @GetMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public List<UserEntity> getUsers() {
         return userRepository.findAll();
     }
@@ -45,6 +47,7 @@ public class UserRestController {
     //Post에 등록된 DB ID로 조회하기
     //@GetMapping("/{}") {}는 동적 변수를 받기 위해서 ex) /api/users/1 , /api/users/2
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     public UserEntity getUser(@PathVariable Long id) {
         UserEntity existUser = getExistEntity(id);
         return existUser;
@@ -75,5 +78,9 @@ public class UserRestController {
                 .orElseThrow(() -> new BusinessException("User Not Found"));
         return existUser;
     }
-
+    //인증 없이 접근 가능한 경로
+    @GetMapping("/welcome")
+    public String welcome() {
+        return "Welcome this endpoint is not secure";
+    }
 }
