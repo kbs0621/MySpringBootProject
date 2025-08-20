@@ -15,15 +15,20 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Student {
 
+    //PK(Sequential Value : Primary Key)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "student_id")
     private Long id;
 
+    //이름
     @Column(nullable = false)
     private String name;
 
+    //학번
     @Column(nullable = false, unique = true)
     private String studentNumber;
 
+    //
     private StudentDetail studentDetail;
 }
