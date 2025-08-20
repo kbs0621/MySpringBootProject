@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -36,9 +39,36 @@ public class UserService {
         return new UserDTO.UserResponse(userEntity);
     }
 
+    //User 목록 조회하기
+    public List<UserDTO.UserResponse> getAllUsers(){
+        //List<UserEntitiy> => List<UserDTO.UserResponse>
+        //Level 1
+//        return userRepository.findAll() //List<UserEntity>
+//                .stream() //Stream<UserEntity>
+//                .map(entity -> new UserDTO.UserResponse(entity)) //Stream<UserDTO.UserResponse>
+//                .collect(Collectors.toList()); //List<UserDTO.UserResponse>
+        //Level 2
+        return userRepository.findAll()
+                .stream()
+                .map(UserDTO.UserResponse::new)
+                .toList();
+    }
+
+    //User 수정
+    @Transactional
+    public UserDTO.UserResponse updateUser(Long id, UserDTO.UserUpdateRequest request){
+        UserEntity existUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new BusinessException("User Not Found"), HttpStatus.NOT_FOUND);
+        //dirty read (setter 메서드만 호출하고, save() 메서드는 호출하지 않아도 됨)
+        existUser.setName(request.getName());
+        return new UserDTO.UserResponse(existUser);
+    }
+
+
     //내부 Helper Method
     private UserEntity getUserExist(Long id){
         return userRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("User Not Found", HttpStatus.NOT_FOUND));
     }
+
 }
