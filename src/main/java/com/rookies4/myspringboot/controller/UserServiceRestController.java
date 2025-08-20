@@ -6,10 +6,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,6 +20,12 @@ public class UserServiceRestController {
         UserDTO.UserResponse createdUser = userService.createUser(request);
 
         return ResponseEntity.ok(createdUser);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO.UserResponse> getUserById(Long id){
+        UserDTO.UserResponse userById = userService.getUserById(id);
+        return ResponseEntity.ok(userById);
     }
 
 }
