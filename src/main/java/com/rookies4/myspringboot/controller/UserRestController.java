@@ -47,7 +47,7 @@ public class UserRestController {
     //Post에 등록된 DB ID로 조회하기
     //@GetMapping("/{}") {}는 동적 변수를 받기 위해서 ex) /api/users/1 , /api/users/2
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN','ROLE_USER')")
     public UserEntity getUser(@PathVariable Long id) {
         UserEntity existUser = getExistEntity(id);
         return existUser;

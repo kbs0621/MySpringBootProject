@@ -1,7 +1,10 @@
 package com.rookies4.myspringboot.security.config;
 
+import com.rookies4.myspringboot.security.service.UserInfoUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,19 +27,37 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    //UserDetailsService 인터페이스를 구현한 객체를 Bean으로 설정
     @Bean
-    //authentication(인증)을 위한 User 생성 (관리자, 일반사용자)
-    public UserDetailsService userDetailsService(PasswordEncoder encoder) {
-        UserDetails admin = User.withUsername("adminboot")
-                .password(encoder.encode("pwd1"))
-                .roles("ADMIN")
-                .build();
-        UserDetails user = User.withUsername("userboot")
-                .password(encoder.encode("pwd2"))
-                .roles("USER")
-                .build();
-        return new InMemoryUserDetailsManager(admin, user);
+    public UserDetailsService userDetailsService(){
+        return new UserInfoUserDetailsService();
     }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider(){
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        //UserDetailsService Bean 설정하기
+        authenticationProvider.setUserDetailsService(userDetailsService());
+        //BCryptPasswordEncoder Bean 설정하기
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        return authenticationProvider;
+    }
+
+
+
+//    @Bean
+//    //authentication(인증)을 위한 User 생성 (관리자, 일반사용자)
+//    public UserDetailsService userDetailsService(PasswordEncoder encoder) {
+//        UserDetails admin = User.withUsername("adminboot")
+//                .password(encoder.encode("pwd1"))
+//                .roles("ADMIN")
+//                .build();
+//        UserDetails user = User.withUsername("userboot")
+//                .password(encoder.encode("pwd2"))
+//                .roles("USER")
+//                .build();
+//        return new InMemoryUserDetailsManager(admin, user);
+//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -45,7 +66,7 @@ public class SecurityConfig {
                 //요청별로 권한을 설정
                 .authorizeHttpRequests(auth -> {
                     // api/users/welcome 경로는 인증 없이 접근 가능함
-                    auth.requestMatchers("/api/users/welcome").permitAll()
+                    auth.requestMatchers("/api/users/welcome","/userinfos/new").permitAll()
                             // api/users/** 경로는 인증 있어야 접근 가능함
                             .requestMatchers("/api/users/**").authenticated();
                 })
