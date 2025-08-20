@@ -17,7 +17,7 @@ import java.util.Optional;
 @RestController
 //final이 붙은 생성자를 초기화 시켜준다.
 @RequiredArgsConstructor
-@RequestMapping("/api/users")
+@RequestMapping("/api/users1")
 public class UserRestController {
 
     //final이 붙은 생성자는 생성과 동시에 무조건 초기화해야한다
