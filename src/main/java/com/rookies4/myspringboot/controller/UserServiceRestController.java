@@ -35,7 +35,17 @@ public class UserServiceRestController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
+    @PatchMapping("/{email}/")
+    public ResponseEntity<UserDTO.UserResponse> updateUser(@PathVariable String email,
+                                                           @Valid @RequestBody UserDTO.UserUpdateRequest reqeust) {
+        return ResponseEntity.ok(userService.updateUser(email,reqeust));
+    }
 
-
+    //id로 삭제
+    @DeleteMapping("/{id?}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id){
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }

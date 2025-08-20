@@ -144,6 +144,8 @@ public class DefaultExceptionAdvice {
         private LocalDateTime timestamp;
         //개별항목에 에러정보
         private Map<String, String> errors;
+//        //ObjectName
+//        private String objectName;
     }
 
 }
