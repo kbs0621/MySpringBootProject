@@ -42,7 +42,7 @@ public class UserServiceRestController {
     }
 
     //id로 삭제
-    @DeleteMapping("/{id?}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
