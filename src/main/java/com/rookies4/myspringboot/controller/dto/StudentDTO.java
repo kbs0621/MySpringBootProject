@@ -65,12 +65,12 @@ public class StudentDTO {
         public static Response fromEntity(Student student) {
             StudentDetailResponse detailResponse = student.getStudentDetail() != null
                     ? StudentDetailResponse.builder()
-                        .id(student.getStudentDetail().getId())
-                        .address(student.getStudentDetail().getAddress())
-                        .phoneNumber(student.getStudentDetail().getPhoneNumber())
-                        .email(student.getStudentDetail().getEmail())
-                        .dateOfBirth(student.getStudentDetail().getDateOfBirth())
-                        .build()
+                    .id(student.getStudentDetail().getId())
+                    .address(student.getStudentDetail().getAddress())
+                    .phoneNumber(student.getStudentDetail().getPhoneNumber())
+                    .email(student.getStudentDetail().getEmail())
+                    .dateOfBirth(student.getStudentDetail().getDateOfBirth())
+                    .build()
                     : null;
 
             return Response.builder()

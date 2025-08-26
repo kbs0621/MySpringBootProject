@@ -17,7 +17,6 @@ public interface StudentDetailRepository extends JpaRepository<StudentDetail, Lo
 
     //Fetch Join 을 사용하여 1개의 Query만 생성이 되도록 처리함
     @Query("SELECT sd FROM StudentDetail sd JOIN FETCH sd.student WHERE sd.id = :id")
-
     Optional<StudentDetail> findByIdWithStudent(@Param("id") Long id);
     //전화번호 중복체크를 위한 메서드
     boolean existsByPhoneNumber(String phoneNumber);
