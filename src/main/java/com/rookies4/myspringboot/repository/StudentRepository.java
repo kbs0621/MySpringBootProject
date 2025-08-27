@@ -14,12 +14,12 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     Optional<Student> findByStudentNumber(String studentNumber);
 
     @Query("SELECT s FROM Student s JOIN FETCH s.studentDetail WHERE s.id = :id")
-    Optional<Student> findByIdWithStudentDetail(@Param("id") Long id);
+    Optional<Student> findByIdWithStudentDetail(@Param("id") Long studentId);
 
     boolean existsByStudentNumber(String studentNumber);
 
     @Query("SELECT s FROM Student s LEFT JOIN FETCH s.studentDetail LEFT JOIN FETCH s.department WHERE s.id = :id")
-    Optional<Student> findByIdWithAllDetails(@Param("id") Long id);
+    Optional<Student> findByIdWithAllDetails(@Param("id") Long studentId);
 
     // 새로 추가된 메서드
     List<Student> findByDepartmentId(Long departmentId);
