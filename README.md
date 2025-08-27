@@ -9,3 +9,12 @@
 * Controller
 * Service
 * Repository
+
+### [Study 2-5] SpringBoot 와 JPA(Java Persistence API) 활용
+
+* Student 와 Department 1:N (OneToMany) 엔티티 연관관계
+
+* N+1 문제 해결
+  * 성능개선
+  * N+1 문제 해결
+  * HibernateModule 사용하여 BatchSize 설정하기
