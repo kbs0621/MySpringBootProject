@@ -25,7 +25,11 @@ public class Department {
     
     @Column(unique = true, nullable = false)
     private String code;
-    
+
+    //Builder 패턴을 적용했을 때 변수에 명시적으로 초기화 한 값이 유지 되도록 해주는 어노테이션
+    @Builder.Default
+    //Departmen에서 Student를 참조할 수 있도록 FK에 해당하는 필드명을 mappedBy에 설정한다.
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Student> students = new ArrayList<>();
     
     // Helper methods
