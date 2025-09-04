@@ -25,7 +25,7 @@ public class StudentSearchController {
     public ResponseEntity<Page<StudentDTO.Response>> searchStudents(
             @RequestParam(required = false) String keyword,
             @PageableDefault(size = 10, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
-        
+
         Page<StudentDTO.Response> students = studentSearchService.searchStudents(keyword, pageable);
         return ResponseEntity.ok(students);
     }
@@ -39,7 +39,7 @@ public class StudentSearchController {
             @PathVariable Long departmentId,
             @RequestParam(required = false) String keyword,
             @PageableDefault(size = 10, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
-        
+
         Page<StudentDTO.Response> students = studentSearchService.searchStudentsByDepartment(
                 departmentId, keyword, pageable);
         return ResponseEntity.ok(students);
@@ -53,7 +53,7 @@ public class StudentSearchController {
     public ResponseEntity<Page<StudentDTO.Response>> searchStudentsByName(
             @RequestParam String name,
             @PageableDefault(size = 10, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
-        
+
         Page<StudentDTO.Response> students = studentSearchService.searchStudentsByName(name, pageable);
         return ResponseEntity.ok(students);
     }
@@ -66,7 +66,7 @@ public class StudentSearchController {
     public ResponseEntity<Page<StudentDTO.Response>> searchStudentsByStudentNumber(
             @RequestParam String studentNumber,
             @PageableDefault(size = 10, sort = "studentNumber", direction = Sort.Direction.ASC) Pageable pageable) {
-        
+
         Page<StudentDTO.Response> students = studentSearchService.searchStudentsByStudentNumber(
                 studentNumber, pageable);
         return ResponseEntity.ok(students);
