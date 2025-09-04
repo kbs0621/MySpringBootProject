@@ -1,4 +1,3 @@
-
 package com.rookies4.myspringboot.controller;
 
 import com.rookies4.myspringboot.controller.dto.DepartmentDTO;
@@ -7,6 +6,10 @@ import com.rookies4.myspringboot.service.DepartmentService;
 import com.rookies4.myspringboot.service.StudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +24,18 @@ public class DepartmentController {
     private final DepartmentService departmentService;
     private final StudentService studentService;
 
+    // 페이징 처리 없는 학과 목록 조회
     @GetMapping
     public ResponseEntity<List<DepartmentDTO.SimpleResponse>> getAllDepartments() {
         List<DepartmentDTO.SimpleResponse> departments = departmentService.getAllDepartments();
+        return ResponseEntity.ok(departments);
+    }
+
+    // 페이징 처리된 학과 목록 조회
+    @GetMapping("/paged")
+    public ResponseEntity<Page<DepartmentDTO.SimpleResponse>> getAllDepartmentsPaged(
+            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+        Page<DepartmentDTO.SimpleResponse> departments = departmentService.getAllDepartments(pageable);
         return ResponseEntity.ok(departments);
     }
 
@@ -64,4 +76,6 @@ public class DepartmentController {
         departmentService.deleteDepartment(id);
         return ResponseEntity.noContent().build();
     }
+
+
 }
