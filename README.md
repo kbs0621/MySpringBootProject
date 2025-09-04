@@ -18,3 +18,7 @@
   * 성능개선
   * N+1 문제 해결
   * HibernateModule 사용하여 BatchSize 설정하기
+
+### [Study 2-7] SpringBoot와 JWT
+* Basic Authentication(인증) 과 Authorization(권한)
+* JWT(Json Web Token) 토큰 인증
